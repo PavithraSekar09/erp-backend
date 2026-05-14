@@ -17,7 +17,7 @@ public class CorsConfig {
 
         // Local + Vercel Frontend
         config.addAllowedOrigin("http://localhost:3000");
-        config.addAllowedOrigin("https://erpfrontend-new-lykg.vercel.app/");
+        config.addAllowedOrigin("https://erp-backend-4-9jw8.onrender.com");
 
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
