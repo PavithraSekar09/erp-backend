@@ -10,10 +10,15 @@ public class CorsConfig {
 
     @Bean
     public CorsFilter corsFilter() {
+
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:3000"); // React URL
+
+        // Local + Vercel Frontend
+        config.addAllowedOrigin("http://localhost:3000");
+        config.addAllowedOrigin("https://erpfrontend-new-lykg.vercel.app/");
+
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 
