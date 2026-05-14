@@ -29,7 +29,9 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
+
                 .cors(cors -> {})
+
                 .headers(headers ->
                         headers.frameOptions(frame -> frame.disable())
                 )
@@ -37,9 +39,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 
                         // =========================
-                        // PUBLIC
+                        // PUBLIC ENDPOINTS
                         // =========================
                         .requestMatchers(
+                                "/",
+                                "/health",
                                 "/api/auth/**",
                                 "/h2-console/**",
                                 "/uploads/**"
@@ -48,21 +52,16 @@ public class SecurityConfig {
                         // =========================
                         // USERS
                         // =========================
-
-                        // USER SELF ACCESS
                         .requestMatchers(
                                 "/api/users/upload-photo",
                                 "/api/users/me",
                                 "/api/users/profile"
                         ).authenticated()
 
-                        // ADMIN CREATE USER
                         .requestMatchers(
                                 "/api/users/create"
                         ).hasAuthority("ROLE_ADMIN")
 
-                        // 🔥 IMPORTANT FIX
-                        // ADMIN CAN VIEW USERS TABLE
                         .requestMatchers(
                                 "/api/users",
                                 "/api/users/**"
@@ -113,15 +112,13 @@ public class SecurityConfig {
                         ).authenticated()
 
                         // =========================
-                        // DEFAULT
+                        // ALL OTHER REQUESTS
                         // =========================
                         .anyRequest().authenticated()
                 )
 
                 .sessionManagement(sess ->
-                        sess.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS
-                        )
+                        sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
         http.addFilterBefore(
